@@ -31,7 +31,7 @@ class DataPacket
     private ?string $longitude = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 4)]
-    private ?float $batteryVoltage = null;
+    private ?string $batteryVoltage = null;
 
     public function getId(): ?int
     {
@@ -62,12 +62,12 @@ class DataPacket
         return $this;
     }
 
-    public function getBatteryVoltage(): ?float
+    public function getBatteryVoltage(): ?string
     {
         return $this->batteryVoltage;
     }
 
-    public function setBatteryVoltage(?float $batteryVoltage): static
+    public function setBatteryVoltage(?string $batteryVoltage): static
     {
         $this->batteryVoltage = $batteryVoltage;
 
