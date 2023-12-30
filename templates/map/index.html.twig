@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+{% endblock %}
+
+{% block title %}Event map view{% endblock %}
+
+{% block body %}
+    <div {{ stimulus_controller('map', {data: data}) }}>
+        <div id="map"></div>
+
+        <div class="controls-container">
+            <div class="time-container">
+                <span {{ stimulus_target('map', 'currTime') }}>{{ event.startDate|date('Y-m-d H:i:s') }}</span>
+                <span>/</span>
+                <span {{ stimulus_target('map', 'maxTime') }}>{{ event.endDate|date('Y-m-d H:i:s') }}</span>
+            </div>
+
+            <div class="slider-box">
+                <input {{ stimulus_target('map', 'timeSlider') }}
+                    type="range"
+                    max="{{ sliderMax }}"
+                    min="0"
+                    step="1"
+                    value="0"
+                    class="form-range">
+            </div>
+        </div>
+    </div>
+{% endblock %}
