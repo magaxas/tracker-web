@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\DataPacket;
 use App\Entity\Event;
 use App\Entity\Participant;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -41,6 +42,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToRoute('Homepage', 'fa fa-home', 'app_main');
         yield MenuItem::linkToCrud('Events', 'fas fa-list', Event::class);
         yield MenuItem::linkToCrud('Participants', 'fas fa-list', Participant::class);
-
+        yield MenuItem::linkToCrud('Data packets', 'fas fa-list', DataPacket::class);
     }
 }
