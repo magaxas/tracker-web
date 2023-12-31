@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\DataPacket;
+use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,20 +23,36 @@ class DataPacketRepository extends ServiceEntityRepository
         parent::__construct($registry, DataPacket::class);
     }
 
-//    /**
-//     * @return DataPacket[] Returns an array of DataPacket objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('d.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return DataPacket[] Returns an array of DataPacket objects
+     * @throws NonUniqueResultException
+     */
+    public function getEventDateRange(Event $event): array
+    {
+        $startDate = $this->createQueryBuilder('dp')
+            ->select('dp.date')
+            ->andWhere('dp.event = :event')
+            ->setParameter('event', $event)
+            ->orderBy('dp.date', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+        ;
+        $endDate = $this->createQueryBuilder('dp')
+            ->select('dp.date')
+            ->andWhere('dp.event = :event')
+            ->setParameter('event', $event)
+            ->orderBy('dp.date', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return [
+            'startDate' => $startDate[0]['date'],
+            'endDate' =>$endDate[0]['date']
+        ];
+    }
 
 //    public function findOneBySomeField($value): ?DataPacket
 //    {
