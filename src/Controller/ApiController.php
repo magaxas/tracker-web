@@ -23,7 +23,7 @@ class ApiController extends AbstractController
 
         $params = $request->request;
         if (!$params->has('batteryVoltage') || !$params->has('latitude') ||
-            !$params->has('longitude') || !$params->has('eventId')) {
+            !$params->has('longitude') || !$params->has('eventId') || !$params->has('deviceId')) {
             return new Response('Wrong parameters');
         }
 

@@ -1,6 +1,7 @@
 .docker/docker
 .docker/.env
 .docker/.env.nginx.local
+.idea
 
 ###> symfony/framework-bundle ###
 /.env.local
