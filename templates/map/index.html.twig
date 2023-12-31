@@ -18,8 +18,9 @@
         <div class="controls-container">
             <div class="time-container">
                 <span {{ stimulus_target('map', 'currTime') }}>{{ event.startDate|date('Y-m-d H:i:s') }}</span>
-                <span>/</span>
-                <span {{ stimulus_target('map', 'maxTime') }}>{{ event.endDate|date('Y-m-d H:i:s') }}</span>
+                <span class="d-maxTime" style="display:none">/</span>
+                <span {{ stimulus_target('map', 'maxTime') }}
+                    class="d-maxTime" style="display:none">{{ event.endDate|date('Y-m-d H:i:s') }}</span>
             </div>
 
             <div class="slider-box">

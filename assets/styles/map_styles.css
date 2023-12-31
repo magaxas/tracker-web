@@ -6,6 +6,8 @@
     bottom: 0;
     width: 100%;
     height: 70px;
+    z-index: 1000;
+    background-color: var(--bs-body-bg);
 }
 .time-container {
     float: right;
@@ -22,4 +24,21 @@
 }
 .slider-box input {
     vertical-align: middle;
+}
+
+@media (min-width: 576px) {
+    .d-maxTime {
+        display: inline!important;
+    }
+}
+
+@media (max-width: 576px) {
+    .time-container {
+        width: 160px;
+        margin-left: 15px;
+    }
+    .slider-box {
+        width: calc(100% - 190px);
+        margin-left: 15px;
+    }
 }
