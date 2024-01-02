@@ -15,18 +15,17 @@ class ApiController extends AbstractController
     #[Route('/api/dataPacket', name: 'app_api_create_data_packet', methods: ['post'])]
     public function createDataPacket(Request $request, ManagerRegistry $managerRegistry): Response
     {
-        $authorizationHeader = $request->headers->get('Authorization');
-        $token = substr($authorizationHeader, 7); // skip beyond "Bearer "
-        if ($this->getParameter('app.api_key') !== $token) {
-            return new Response('Unauthorized');
-        }
-
         $params = $request->request;
-        if (!$params->has('batteryVoltage') || !$params->has('latitude') ||
+    
+        if (!$params->has('authorizationToken') || !$params->has('batteryVoltage') || !$params->has('latitude') ||
             !$params->has('longitude') || !$params->has('eventId') || !$params->has('deviceId')) {
             return new Response('Wrong parameters');
         }
-
+        
+        if ($this->getParameter('app.api_key') !== $params->get('authorizationToken')) {
+            return new Response('Unauthorized');
+        }
+        
         $em = $managerRegistry->getManager();
         $event = $em->getRepository(Event::class)->findOneBy([
             'id' => $params->get('eventId') //TODO: check if event is live
