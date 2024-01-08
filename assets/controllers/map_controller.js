@@ -10,6 +10,7 @@ export default class extends Controller {
   timeSliderMax = 0;
   currMarkers = [];
   map = null;
+  coordsList = [];
 
   static targets = ['timeSlider', 'currTime', 'maxTime']
   static values = {
@@ -26,6 +27,17 @@ export default class extends Controller {
 
   addMarker(latLng) {
     return L.marker(latLng).addTo(this.map);
+  }
+
+  connectDots() {
+    this.dataValue.forEach((participant) => {
+      console.log(participant.data);
+      for (let [key, value] of Object.entries(participant.data)) {
+        this.coordsList.push([value[0], value[1]]);
+      }
+    });
+
+    L.polyline(this.coordsList).addTo(this.map);
   }
 
   loadMarkers(init = false) {
@@ -71,6 +83,7 @@ export default class extends Controller {
 
     this.loadMarkers(true);
     this.handleTimeSlider();
+    this.connectDots();
   }
 
   getFormattedDate(d){
