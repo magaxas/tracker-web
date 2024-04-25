@@ -26,7 +26,8 @@ class MapDataService
             ];
 
             $dataPackets = $dpRepository->findBy(
-                ['event' => $event, 'deviceId' => $p->getDeviceId()]
+                ['event' => $event, 'deviceId' => $p->getDeviceId()],
+                ['date' => 'DESC', 'id' => 'ASC']
             );
             foreach ($dataPackets as $packet) {
                 $pData['data'][$packet->getDate()->format('Y-m-d H:i:s')] = [
