@@ -21,7 +21,9 @@ class MapController extends AbstractController
         MapDataService $mapDataService,
         int $eventId
     ): Response {
-        $event = $managerRegistry->getRepository(Event::class)->find($eventId);
+        $event = $managerRegistry->getRepository(Event::class)->findOneBy(
+            ['id' => $eventId, 'enabled' => true]
+        );
         if (!$event) throw new \Exception('Event not found!');
 
         $data = json_encode($mapDataService->getEventData($event));

@@ -33,6 +33,9 @@ class Event
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\Column(options: ['default' => true])]
+    private ?bool $enabled = true;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -124,5 +127,17 @@ class Event
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function isEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): static
+    {
+        $this->enabled = $enabled;
+
+        return $this;
     }
 }

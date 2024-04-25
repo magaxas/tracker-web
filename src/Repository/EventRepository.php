@@ -29,6 +29,7 @@ class EventRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
             ->andWhere('e.startDate <= :currDate')
             ->andWhere('e.endDate >= :currDate')
+            ->andWhere('e.enabled = true')
             ->setParameter('currDate', (new \DateTime())->setTimezone(new \DateTimeZone('Europe/Vilnius')))
             ->setMaxResults(9)
             ->getQuery()
@@ -43,6 +44,7 @@ class EventRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.endDate < :currDate')
+            ->andWhere('e.enabled = true')
             ->setParameter('currDate', (new \DateTime())->setTimezone(new \DateTimeZone('Europe/Vilnius')))
             ->setMaxResults(9)
             ->getQuery()
@@ -57,6 +59,7 @@ class EventRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.startDate > :currDate')
+            ->andWhere('e.enabled = true')
             ->setParameter('currDate', (new \DateTime())->setTimezone(new \DateTimeZone('Europe/Vilnius')))
             ->setMaxResults(9)
             ->getQuery()
