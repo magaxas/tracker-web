@@ -43,10 +43,13 @@ class ApiController extends AbstractController
             ->setLongitude($params->get('longitude'))
             ->setEvent($event)
         ;
+        if ($params->has('accelX')) $dataPacket->setAccelX($params->get('accelX'));
+        if ($params->has('accelY')) $dataPacket->setAccelY($params->get('accelY'));
+        if ($params->has('accelZ')) $dataPacket->setAccelZ($params->get('accelZ'));
+        if ($params->has('satNum')) $dataPacket->setSatNum((int)$params->get('satNum'));
 
         $em->persist($dataPacket);
         $em->flush();
-
         return new Response('OK');
     }
 
@@ -79,6 +82,11 @@ class ApiController extends AbstractController
         $batteryVoltages = explode(';', $params->get('batteryVoltages'));
         $dates = explode(';', $params->get('dates'));
 
+        if ($params->has('accelX')) $accelX = explode(';', $params->get('accelX'));
+        if ($params->has('accelY')) $accelY = explode(';', $params->get('accelY'));
+        if ($params->has('accelZ')) $accelZ = explode(';', $params->get('accelZ'));
+        if ($params->has('satNum')) $satNum = explode(';', $params->get('satNum'));
+
         if (count($latitudes) != $dataPacketsAmount || count($longitudes) != $dataPacketsAmount ||
             count($dates) != $dataPacketsAmount || count($batteryVoltages) != $dataPacketsAmount) {
             return new Response('DataPackets amount mismatch');
@@ -94,6 +102,10 @@ class ApiController extends AbstractController
                 ->setDeviceId($params->get('deviceId'))
                 ->setEvent($event)
             ;
+            if (isset($accelX)) $dataPacket->setAccelX($accelX[$i]);
+            if (isset($accelY)) $dataPacket->setAccelY($accelY[$i]);
+            if (isset($accelZ)) $dataPacket->setAccelZ($accelZ[$i]);
+            if (isset($satNum)) $dataPacket->setSatNum($satNum[$i]);
 
             $em->persist($dataPacket);
             $em->flush();

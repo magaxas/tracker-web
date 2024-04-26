@@ -33,6 +33,18 @@ class DataPacket
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 4)]
     private ?string $batteryVoltage = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 4, nullable: true)]
+    private ?string $accelX = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 4, nullable: true)]
+    private ?string $accelY = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 4, nullable: true)]
+    private ?string $accelZ = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $satNum = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +118,54 @@ class DataPacket
     public function setEvent(?Event $event): static
     {
         $this->event = $event;
+
+        return $this;
+    }
+
+    public function getAccelX(): ?string
+    {
+        return $this->accelX;
+    }
+
+    public function setAccelX(?string $accelX): static
+    {
+        $this->accelX = $accelX;
+
+        return $this;
+    }
+
+    public function getAccelY(): ?string
+    {
+        return $this->accelY;
+    }
+
+    public function setAccelY(?string $accelY): static
+    {
+        $this->accelY = $accelY;
+
+        return $this;
+    }
+
+    public function getAccelZ(): ?string
+    {
+        return $this->accelZ;
+    }
+
+    public function setAccelZ(?string $accelZ): static
+    {
+        $this->accelZ = $accelZ;
+
+        return $this;
+    }
+
+    public function getSatNum(): ?int
+    {
+        return $this->satNum;
+    }
+
+    public function setSatNum(?int $satNum): static
+    {
+        $this->satNum = $satNum;
 
         return $this;
     }
