@@ -17,7 +17,7 @@ class ApiController extends AbstractController
     {
         $params = $request->request;
 
-        if (!$params->has('authorizationToken') || !$params->has('batteryVoltage') || !$params->has('latitude') ||
+        if (!$params->has('authorizationToken') || !$params->has('latitude') ||
             !$params->has('longitude') || !$params->has('eventId') || !$params->has('deviceId')) {
             return new Response('Wrong parameters');
         }
@@ -37,16 +37,16 @@ class ApiController extends AbstractController
         $dataPacket = new DataPacket();
         $dataPacket
             ->setDate((new \DateTime())->setTimezone(new \DateTimeZone('Europe/Vilnius')))
-            ->setBatteryVoltage($params->get('batteryVoltage'))
             ->setDeviceId($params->get('deviceId'))
             ->setLatitude($params->get('latitude'))
             ->setLongitude($params->get('longitude'))
             ->setEvent($event)
         ;
+        if ($params->has('batteryVoltage')) $dataPacket->setBatteryVoltage($params->get('batteryVoltage'));
         if ($params->has('accelX')) $dataPacket->setAccelX($params->get('accelX'));
         if ($params->has('accelY')) $dataPacket->setAccelY($params->get('accelY'));
         if ($params->has('accelZ')) $dataPacket->setAccelZ($params->get('accelZ'));
-        if ($params->has('satNum')) $dataPacket->setSatNum((int)$params->get('satNum'));
+        if ($params->has('satNum')) $dataPacket->setSatNum($params->get('satNum'));
 
         $em->persist($dataPacket);
         $em->flush();
@@ -58,7 +58,7 @@ class ApiController extends AbstractController
     {
         $params = $request->request;
 
-        if (!$params->has('authorizationToken') || !$params->has('batteryVoltages') || !$params->has('latitudes') ||
+        if (!$params->has('authorizationToken') || !$params->has('latitudes') ||
             !$params->has('longitudes') || !$params->has('eventId') || !$params->has('deviceId') ||
             !$params->has('dataPacketsAmount') || !$params->has('dates')) {
             return new Response('Wrong parameters');
@@ -79,16 +79,16 @@ class ApiController extends AbstractController
         $dataPacketsAmount = $params->get('dataPacketsAmount');
         $latitudes = explode(';', $params->get('latitudes'));
         $longitudes = explode(';', $params->get('longitudes'));
-        $batteryVoltages = explode(';', $params->get('batteryVoltages'));
         $dates = explode(';', $params->get('dates'));
 
+        if ($params->has('batteryVoltages')) $batteryVoltages = explode(';', $params->get('batteryVoltages'));;
         if ($params->has('accelX')) $accelX = explode(';', $params->get('accelX'));
         if ($params->has('accelY')) $accelY = explode(';', $params->get('accelY'));
         if ($params->has('accelZ')) $accelZ = explode(';', $params->get('accelZ'));
         if ($params->has('satNum')) $satNum = explode(';', $params->get('satNum'));
 
         if (count($latitudes) != $dataPacketsAmount || count($longitudes) != $dataPacketsAmount ||
-            count($dates) != $dataPacketsAmount || count($batteryVoltages) != $dataPacketsAmount) {
+            count($dates) != $dataPacketsAmount) {
             return new Response('DataPackets amount mismatch');
         }
 
@@ -96,12 +96,12 @@ class ApiController extends AbstractController
             $dataPacket = new DataPacket();
             $dataPacket
                 ->setDate((new \DateTime($dates[$i]))->setTimezone(new \DateTimeZone('Europe/Vilnius')))
-                ->setBatteryVoltage($batteryVoltages[$i])
                 ->setLatitude($latitudes[$i])
                 ->setLongitude($longitudes[$i])
                 ->setDeviceId($params->get('deviceId'))
                 ->setEvent($event)
             ;
+            if (isset($batteryVoltages)) $dataPacket->setBatteryVoltage($batteryVoltages[$i]);
             if (isset($accelX)) $dataPacket->setAccelX($accelX[$i]);
             if (isset($accelY)) $dataPacket->setAccelY($accelY[$i]);
             if (isset($accelZ)) $dataPacket->setAccelZ($accelZ[$i]);

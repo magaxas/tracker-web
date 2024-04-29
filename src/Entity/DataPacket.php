@@ -30,7 +30,7 @@ class DataPacket
     #[ORM\Column(type: Types::DECIMAL, precision: 9, scale: 6)]
     private ?string $longitude = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 4)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 4, nullable: true)]
     private ?string $batteryVoltage = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 4, nullable: true)]

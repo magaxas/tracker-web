@@ -31,7 +31,6 @@ export default class extends Controller {
 
   connectDots() {
     this.dataValue.forEach((participant) => {
-      console.log(participant.data);
       for (let [key, value] of Object.entries(participant.data)) {
         this.coordsList.push([value[0], value[1]]);
       }
@@ -47,8 +46,12 @@ export default class extends Controller {
       if (typeof participant.data[currTime] !== 'undefined') {
         let lat = participant.data[currTime][0];
         let long = participant.data[currTime][1];
-        let batteryVoltage =  parseFloat(participant.data[currTime][2]).toFixed(4);
         let fullName = participant.name + ' ' + participant.surname;
+        let batteryVoltage = '';
+
+        if (participant.data[currTime][2] !== null) {
+          batteryVoltage =  parseFloat(participant.data[currTime][2]).toFixed(4);
+        }
 
         if (init || this.showTrace) { //marker exists
           let marker = this.addMarker([lat, long]);
